@@ -16,8 +16,15 @@ module MarkdownInRepository
       def entry_with_markdown
         entry_without_markdown
         if !performed? && @path =~ /\.(?:#{MARKDOWN_EXTS.join('|')})$/i
+          raw_url = request.protocol + request.host + [
+            '/projects', params[:id], 'repository',
+            'revisions', @rev, 'raw', @path
+          ].join('/')
+
+          mkrender = MarkdownInRepository::MarkdownRender.new
+          mkrender.set_raw_url(raw_url)
           markdown = Redcarpet::Markdown.new(
-              MarkdownInRepository::MarkdownRender,
+              mkrender,
               :autolink => true,
               :fenced_code_blocks => true,
               :space_after_headers => true,
