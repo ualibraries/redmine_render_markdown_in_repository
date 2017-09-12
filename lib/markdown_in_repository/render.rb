@@ -1,6 +1,3 @@
-require 'redcarpet'
-require 'coderay'
-
 module MarkdownInRepository
 
   MARKDOWN_EXTS = %w{md markdown}.freeze
@@ -8,13 +5,20 @@ module MarkdownInRepository
     Redmine::MimeType::EXTENSIONS[ext] = 'text/x-markdown'
   end
 
-  class MarkdownRender < Redcarpet::Render::HTML
-    def block_code(code, language)
-      # convert utf8 for CodeRay
-      code = Redmine::CodesetUtil.to_utf8_by_setting(code)
-      language = CodeRay::FileType[language] if language
-      language ||= :auto
-      CodeRay.scan(code, language).div
+  class MarkdownRender < Redmine::WikiFormatting::Markdown::HTML
+    @@raw_url = nil
+
+    def image(link, title, alt_text)
+      return unless uri_with_safe_scheme?(link)
+
+      unless link.starts_with?('/')
+        link = URI.join(@@raw_url, link)
+      end
+      tag('img', :src => link, :alt => alt_text || "", :title => title)
+    end
+
+    def set_raw_url(raw_url)
+      @@raw_url = raw_url
     end
   end
 end
