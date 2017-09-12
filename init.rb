@@ -9,11 +9,11 @@ Rails.configuration.to_prepare do
 end
 
 Redmine::Plugin.register :redmine_render_markdown_in_repository do
-  name 'Render Markdown in Repository'
-  author 'Makoto Kawasaki'
-  author_url 'http://makotokw.com'
-  description 'This plugin renders markdown file in repository'
-  version '1.0.1'
-  url 'https://github.com/makotokw/redmine_render_markdown_in_repository'
-  requires_redmine :version_or_higher => '2.0'
+  name 'Render Markdown in Repository Browser'
+  author 'guenbakku (origin: Makoto Kawasaki)'
+  author_url 'https://github.com/guenbakku/'
+  description 'Render markdown file (.md or .markdown) in repository browser'
+  version '1.0.2'
+  url 'https://github.com/guenbakku/redmine_render_markdown_in_repository'
+  requires_redmine :version_or_higher => '3.4'
 end
