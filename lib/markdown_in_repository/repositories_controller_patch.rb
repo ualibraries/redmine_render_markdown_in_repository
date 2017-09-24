@@ -18,7 +18,7 @@ module MarkdownInRepository
         if !performed? && @path =~ /\.(?:#{MARKDOWN_EXTS.join('|')})$/i
           raw_url = request.protocol + request.host + [
             '/projects', params[:id], 'repository',
-            'revisions', @rev, 'raw', @path
+            'revisions', @rev, 'raw', URI.encode(@path)
           ].join('/')
 
           mkrender = MarkdownInRepository::MarkdownRender.new

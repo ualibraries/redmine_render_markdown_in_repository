@@ -12,7 +12,7 @@ module MarkdownInRepository
       return unless uri_with_safe_scheme?(link)
 
       unless link.starts_with?('/')
-        link = URI.join(@@raw_url, link)
+        link = URI.join(@@raw_url, URI.encode(link))
       end
       tag('img', :src => link, :alt => alt_text || "", :title => title)
     end
